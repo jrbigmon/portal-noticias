@@ -1,23 +1,19 @@
-const baseURL = 'https://newsapi.org/v2'
-const token  = '8d7df186bd4f42cf8889135b051dc2a2'
-const config = {
-    method: 'GET',
-    headers: {
-        Authorization: `Bearer ${token}`
-    }
-}
-
 window.addEventListener('load', () => {
-    const listaDeNoticias = document.querySelector('#listaDeNoticias')
-    const noticesBrasil = document.querySelector('#brasil')
-    const noticesEUA = document.querySelector('#estadosUnidos')
-
-    const getTopNotices = async (endPoint) => {  
+    const baseURL = 'https://newsapi.org/v2'
+    const token  = '8d7df186bd4f42cf8889135b051dc2a2'
+    const config = {
+        method: 'GET',
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+    const getTopNotices = async () => {  
+        const listaDeNoticias = document.querySelector('#listaDeNoticias')
         try {
-            const response = await fetch(`${baseURL}/${endPoint}`, config)
+            const response = await fetch(`${baseURL}/top-headlines?country=us`, config)
             const data = await response.json()
             data.articles.forEach(article => {  
-                const card = `<div class="col-3 cards">
+                const card = `<div class="col-3">
                     <div class="card">
                     <img src="${article.urlToImage || 'Imagem não encontrada'}" class="card-img-top" alt="" />
                     <div class="card-body">
@@ -42,10 +38,5 @@ window.addEventListener('load', () => {
             mainSelector.insertAdjacentHTML('beforeend', imageNotAccess)
         }       
     }
-
-    const endPoints = [
-        'top-headlines?country=br', 
-        'top-headlines?country=us'
-    ]
-
+    getTopNotices()
 })
